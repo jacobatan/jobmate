@@ -17,8 +17,9 @@ const App = () => {
   const[showNewJobForm, setNewJobForm] = useState(false);
 
   //stores all current jobs
-  const [allJobs, setAllJobs] = useState([])
-
+  const [allJobs, setAllJobs] = useState(
+    JSON.parse(localStorage.getItem('allJobs')) || []
+  )
 
   //recieves new job data and stores it in state, newJob
   function handleNewJob(event) {
@@ -29,6 +30,11 @@ const App = () => {
       } 
     });
   }
+
+  //everytime new job is added, update local storage
+  React.useEffect(()=> {
+    localStorage.setItem('allJobs', JSON.stringify(allJobs))
+  }, [allJobs])
 
   //uses the upadated new job state to create a new Jobcard Component
   function renderNewJob(event) {
@@ -47,6 +53,7 @@ const App = () => {
       <Jobcard key={i} newJob={job}/>
     )
   })
+
 
   function openModal() {
     setNewJobForm(true)
