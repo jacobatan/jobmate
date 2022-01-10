@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "./components/Header";
 import Jobcard from "./components/Jobcard";
 import NewjobForm from "./components/NewjobForm";
+import Summary from "./components/Summary";
 
 const App = () => {
   //state for adding new job
@@ -72,6 +73,7 @@ const App = () => {
   return (
     <div className="bg-gray-50 h-screen">
       <Header />
+      <Summary/>
       <NewjobForm
         showNewJobForm={showNewJobForm}
         handleNewJob={handleNewJob}
