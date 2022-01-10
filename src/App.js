@@ -44,13 +44,18 @@ const App = () => {
     setAllJobs(allPrevJobs => {return [...allPrevJobs, latestJob]})
     // !!!!!!!!!!!!!!!FOR SOME REASON DATE DOESNT get displayed !!!!!!!//
     setNewJob(defaultNewJob) //clear the form and default the state
-    setNewJobForm(false)
+    setNewJobForm(old=> !old)
+  }
+
+  // need to implement the delete job button
+  function handleJobDelete(id) {
+    console.log(`delete ${id}`)
   }
 
   //maps over all jobs and renders the jsx
   const renderAllJobs = allJobs.map((job,i)=> {
     return (
-      <Jobcard key={i} newJob={job}/>
+      <Jobcard key={i} newJob={job} handleJobDelete={()=>handleJobDelete(i)}/>
     )
   })
 

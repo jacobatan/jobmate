@@ -37,6 +37,8 @@ const Jobcard = (props) => {
       <p className="text-sm text-gray-400 ">
         {props.newJob.notes}
       </p>
+
+      <button onClick={props.handleJobDelete}> Delete</button>
     </div>
   );
 };
