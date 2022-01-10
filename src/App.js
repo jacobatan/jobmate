@@ -55,21 +55,21 @@ const App = () => {
   })
 
 
-  function openModal() {
-    setNewJobForm(true)
+  function toggleModal() {
+    setNewJobForm(old=> !old)
   }
 
   return (
     <div className="bg-gray-50 h-screen">
       <Header />
-      <NewjobForm showNewJobForm={showNewJobForm} handleNewJob={handleNewJob} newJob={newJob} renderNewJob={renderNewJob}/>
+      <NewjobForm showNewJobForm={showNewJobForm} handleNewJob={handleNewJob} newJob={newJob} renderNewJob={renderNewJob} toggleModal={toggleModal}/>
 
       {/* main card */}
 
       <section className="pt-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
 
         {renderAllJobs}
-        <button className="border-2 cursor-pointer" onClick={openModal} > Add New Job </button>
+        <button className="border-2 cursor-pointer" onClick={toggleModal} > Add New Job </button>
       </section>
     </div>
   );

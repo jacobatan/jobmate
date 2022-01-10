@@ -10,12 +10,13 @@ export default function NewjobForm(props) {
                     <input required type='date' name='date' onChange={props.handleNewJob} value={props.newJob.date}/>
                 <input required onChange={props.handleNewJob} type='text' name='location' placeholder='Location' value={props.newJob.location}/>
                     <textarea onChange={props.handleNewJob} type='text' name='notes' placeholder='Notes' value={props.newJob.notes}/>       
-                    <select required onChange={props.handleNewJob} name='status' value={props.newJob.status}>
+                    <select className='block' required onChange={props.handleNewJob} name='status' value={props.newJob.status}>
                         <option value='offer'>Offer</option> 
                         <option defaultValue value='awaitingResponse'>Awaiting Response</option> 
                         <option value='rejected'>Rejected</option> 
                     </select>
-                    <button className='block'>Add Job</button> 
+                    <button type='submit' className='border-2  inline'>Add Job</button> 
+                    <button type='button' className='border-2 m-2 inline' onClick={props.toggleModal}>Close</button>
                 </form> 
             </div>
         </div>
