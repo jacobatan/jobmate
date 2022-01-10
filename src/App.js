@@ -5,16 +5,16 @@ import NewjobForm from "./components/NewjobForm";
 
 const App = () => {
   //state for adding new job
-  const [newJob, setNewJob] = useState({
+  const defaultNewJob = {
     company: "",
     position: "",
     location: "",
     notes: "",
     status: "",
-  });
-
-  //listens for on submit on the newjob form 
-  const [addNewJob, setAddNewJob] = useState(false)
+    date: ""
+  };
+  const [newJob, setNewJob] = useState(defaultNewJob);
+  const[showNewJobForm, setNewJobForm] = useState(false);
 
   //stores all current jobs
   const [allJobs, setAllJobs] = useState([])
@@ -28,14 +28,17 @@ const App = () => {
           [event.target.name]: event.target.value
       } 
     });
-
   }
 
   //uses the upadated new job state to create a new Jobcard Component
-  function renderNewJob() {
+  function renderNewJob(event) {
+    event.preventDefault()
     const latestJob = newJob
     //  update all jobs
     setAllJobs(allPrevJobs => {return [...allPrevJobs, latestJob]})
+    // !!!!!!!!!!!!!!!FOR SOME REASON DATE DOESNT get displayed !!!!!!!//
+    setNewJob(defaultNewJob) //clear the form and default the state
+    setNewJobForm(false)
   }
 
   //maps over all jobs and renders the jsx
@@ -45,20 +48,21 @@ const App = () => {
     )
   })
 
+  function openModal() {
+    setNewJobForm(true)
+  }
+
   return (
     <div className="bg-gray-50 h-screen">
       <Header />
-      <NewjobForm handleNewJob={handleNewJob} newJob={newJob} renderNewJob={renderNewJob}/>
+      <NewjobForm showNewJobForm={showNewJobForm} handleNewJob={handleNewJob} newJob={newJob} renderNewJob={renderNewJob}/>
 
       {/* main card */}
 
       <section className="pt-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
-        {/* {foo.map((foobar, i) => (
-          <Jobcard key={i} />
-        ))} */}
-        {/* ^^^^ temporary soln for testing purposes :) */}
 
         {renderAllJobs}
+        <button className="border-2 cursor-pointer" onClick={openModal} > Add New Job </button>
       </section>
     </div>
   );

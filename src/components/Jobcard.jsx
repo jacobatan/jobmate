@@ -16,7 +16,7 @@ const Jobcard = (props) => {
           </div>
           <p>{props.newJob.company}</p>
         </div>
-        <p className="text-sm text-gray-400">4 Jan</p>
+        <p className="text-sm text-gray-400">{props.date}</p>
       </div>
       {/* Job title + loc */}
       <div className="pb-5">
