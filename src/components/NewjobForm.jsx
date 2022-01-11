@@ -27,7 +27,7 @@ export default function NewjobForm({
     >
       {/* contents */}
       <div
-        className="border-0 rounded-2xl shadow-2xl relative flex flex-col w-2/5 bg-white outline-none cursor-default p-8"
+        className="border-0 rounded-2xl shadow-2xl relative flex flex-col w-full h-full md:h-auto xl:w-3/5 xl:h-auto 2xl:w-1/2 bg-white outline-none cursor-default p-8"
         ref={ref}
       >
         <div className="flex items-start justify-between p-5 rounded-t">
@@ -46,7 +46,7 @@ export default function NewjobForm({
           autoComplete="off"
         >
           {/* company + position */}
-          <div className="grid grid-cols-2 w-11/12 mx-auto gap-x-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2  w-11/12 mx-auto gap-x-4">
             <div className="flex flex-col py-2 w-full">
               <div className="form__text">Company</div>
               <input
@@ -114,26 +114,27 @@ export default function NewjobForm({
             </div>
           </div>
           <div className="flex flex-col py-2 w-full mx-auto">
-            <div className="form__text">Position</div>
-
-            <select
-              className="block"
-              required
-              onChange={handleNewJob}
-              name="status"
-              value={newJob.status}
-            >
-              <option value="offer">Offer</option>
-              <option defaultValue value="awaitingResponse">
-                Awaiting Response
-              </option>
-              <option value="rejected">Rejected</option>
-            </select>
+            <div className="w-11/12 mx-auto ">
+              <div className="flex flex-col py-2 w-full">
+                <div className="form__text">Job Status</div>
+                <select
+                  className="form__input  "
+                  required
+                  onChange={handleNewJob}
+                  name="status"
+                  value={newJob.status}
+                >
+                  <option value="awaitingResponse">Awaiting Response</option>
+                  <option value="offer">Offer</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <button
             type="submit"
-            className="w-11/12 text-3xl font-semibold mx-auto bg-green-500 text-white px-4 py-6 rounded-md mt-4 
+            className="w-11/12 text-lg xl:text-2xl font-semibold mx-auto bg-green-500 text-white px-4 py-4 rounded-md mt-4 
             hover:bg-green-600 transform transition ease-out"
           >
             Add Job <span className="font-normal">➜</span>
