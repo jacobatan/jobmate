@@ -1,6 +1,13 @@
 import React from "react";
 
-const Jobcard = (props) => {
+const Jobcard = ({ newJob, handleJobDelete, date }) => {
+  const colour =
+    newJob.status === "rejected"
+      ? "red"
+      : newJob.status === "offer"
+      ? "green"
+      : "orange";
+  console.log(colour);
   return (
     // bg-red-100 for rej, bg-green-100 for acc, bg-white for pending
     <div className="p-6 shadow-md rounded-xl bg-white cursor-pointer hover:bg-gray-200 transform transition mx-2 ease-out ">
@@ -14,31 +21,32 @@ const Jobcard = (props) => {
               alt=""
             />
           </div>
-          <p>{props.newJob.company}</p>
+          <p>{newJob.company}</p>
         </div>
-        <p className="text-sm text-gray-400">{props.date}</p>
+        <p className="text-sm text-gray-400">{date}</p>
       </div>
       {/* Job title + loc */}
       <div className="pb-5">
-        <h1 className="text-xl font-bold">{props.newJob.position}</h1>
-        <p className="text-sm font-semibold">{props.newJob.location}</p>
+        <h1 className="text-xl font-bold">{newJob.position}</h1>
+        <p className="text-sm font-semibold">{newJob.location}</p>
       </div>
 
       {/* Tags */}
       <div className="hidden sm:inline-block space-x-1 pb-7">
-        <button className="rounded-xl bg-blue-200 py-0.5 px-2 text-sm text-blue-500">
-          Jnr. lvl
-        </button>
-        <button className="rounded-xl bg-green-200 py-0.5 px-2 text-sm text-green-500">
-          Full-time
+        <button
+          className={`rounded-xl bg-${colour}-200 py-0.5 px-2 text-sm text-${colour}-600`}
+        >
+          {newJob.status === "rejected"
+            ? "Rejected"
+            : newJob.status === "offer"
+            ? "Offer"
+            : "Awaiting Response"}
         </button>
       </div>
 
-      <p className="hidden sm:block text-sm text-gray-400 ">
-        {props.newJob.notes}
-      </p>
+      <p className="hidden sm:block text-sm text-gray-400 ">{newJob.notes}</p>
 
-      <button onClick={props.handleJobDelete}> Delete</button>
+      <button onClick={handleJobDelete}> Delete</button>
     </div>
   );
 };
