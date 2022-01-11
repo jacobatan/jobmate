@@ -1,18 +1,25 @@
 import React, { useEffect, useRef } from "react";
 
-export default function NewjobForm(props) {
+export default function NewjobForm({
+  showNewJobForm,
+  handleNewJob,
+  newJob,
+  renderNewJob,
+  toggleModal,
+}) {
   const ref = useRef();
   useEffect(() => {
     const checkIfClickOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
-        props.toggleModal();
+        toggleModal();
       }
     };
     document.addEventListener("click", checkIfClickOutside);
     return () => {
       document.removeEventListener("click", checkIfClickOutside);
     };
-  }, [props.toggleModal]);
+  }, [toggleModal]);
+
   return (
     <div
       className={`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none 
@@ -28,14 +35,14 @@ export default function NewjobForm(props) {
           <button
             type="button"
             className="font-semibold w-6"
-            onClick={props.toggleModal}
+            onClick={toggleModal}
           >
             X
           </button>
         </div>
         <form
           className="flex flex-col "
-          onSubmit={props.renderNewJob}
+          onSubmit={renderNewJob}
           autoComplete="off"
         >
           {/* company + position */}
@@ -45,10 +52,10 @@ export default function NewjobForm(props) {
               <input
                 className="form__input"
                 required
-                onChange={props.handleNewJob}
+                onChange={handleNewJob}
                 type="text"
                 name="company"
-                value={props.newJob.company}
+                value={newJob.company}
               />
             </div>
 
@@ -57,10 +64,10 @@ export default function NewjobForm(props) {
               <input
                 className="form__input"
                 required
-                onChange={props.handleNewJob}
+                onChange={handleNewJob}
                 type="text"
                 name="position"
-                value={props.newJob.position}
+                value={newJob.position}
               />
             </div>
           </div>
@@ -71,10 +78,10 @@ export default function NewjobForm(props) {
               <input
                 className="form__input "
                 required
-                onChange={props.handleNewJob}
+                onChange={handleNewJob}
                 type="text"
                 name="location"
-                value={props.newJob.location}
+                value={newJob.location}
               />
             </div>
           </div>
@@ -87,8 +94,8 @@ export default function NewjobForm(props) {
                 className="form__input"
                 type="date"
                 name="date"
-                onChange={props.handleNewJob}
-                value={props.newJob.date}
+                onChange={handleNewJob}
+                value={newJob.date}
               />
             </div>
           </div>
@@ -99,10 +106,10 @@ export default function NewjobForm(props) {
               <textarea
                 className="form__input h-[150px]"
                 required
-                onChange={props.handleNewJob}
+                onChange={handleNewJob}
                 type="text"
                 name="notes"
-                value={props.newJob.notes}
+                value={newJob.notes}
               />
             </div>
           </div>
@@ -112,9 +119,9 @@ export default function NewjobForm(props) {
             <select
               className="block"
               required
-              onChange={props.handleNewJob}
+              onChange={handleNewJob}
               name="status"
-              value={props.newJob.status}
+              value={newJob.status}
             >
               <option value="offer">Offer</option>
               <option defaultValue value="awaitingResponse">
