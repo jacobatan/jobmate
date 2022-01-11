@@ -11,3 +11,6 @@
     @apply flex flex-col py-2 w-full;
   }
 }
+body {
+  background-color: #f9fafb;
+}
