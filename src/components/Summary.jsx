@@ -14,7 +14,7 @@ const Summary = (props) => {
                 </div>
 
                 {/* offers & awaiting response */}
-                <div className="flex text-sm leading-6 font-medium">
+                <div className="flex text-sm leading-6 font-medium mt-2">
                     <div className={`bg-green-300  rounded-lg mr-1  py-2 w-2/5 sm:py-4`}>5</div>
                     <div className={`bg-orange-300 rounded-lg py-2 w-3/5 sm:py-4`}>3</div>
                 </div>
