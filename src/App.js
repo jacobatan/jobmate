@@ -89,9 +89,13 @@ const App = () => {
 
       {/* main card */}
 
-      <section className="py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
+      {/* py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 */}
+
+      {/* py-12 grid md:grid-cols-3 grid-flow-row md:max-w-sm lg:max-w-7xl  mx-auto gap-x-6 gap-y-6 justify-items-center md:justify-items-start */}
+
+      <section className="py-12 grid grid-cols-1 justify-items-center md:max-w-l md:grid-cols-2 lg:max-w-7xl  lg:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
         <button
-          className="border-2 border-dashed cursor-pointer"
+          className="border-2 border-dashed cursor-pointer w-3/5"
           onClick={() => setOpenModal(true)}
         >
           {" "}

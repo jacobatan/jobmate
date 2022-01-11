@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 const Jobcard = ({ newJob, handleJobDelete, date }) => {
   const colour =
@@ -7,10 +9,10 @@ const Jobcard = ({ newJob, handleJobDelete, date }) => {
       : newJob.status === "offer"
       ? "green"
       : "orange";
-  console.log(colour);
+
   return (
     // bg-red-100 for rej, bg-green-100 for acc, bg-white for pending
-    <div className="p-6 shadow-md rounded-xl bg-white cursor-pointer hover:bg-gray-200 transform transition mx-2 ease-out ">
+    <div className=" flex flex-col p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-lg transform transition mx-2 ease-out w-3/5 lg:w-full min-w-fit max-w-l">
       {/* Card Header*/}
       <div className="flex justify-between items-center pb-3">
         <div className="flex items-center space-x-2">
@@ -46,7 +48,12 @@ const Jobcard = ({ newJob, handleJobDelete, date }) => {
 
       <p className="hidden sm:block text-sm text-gray-400 ">{newJob.notes}</p>
 
-      <button onClick={handleJobDelete}> Delete</button>
+      {/* call to actoin */}
+      <div className="self-end">
+        <FontAwesomeIcon icon={faTrashAlt} onClick={handleJobDelete} className="text-red-400  hover:scale-110 focus:scale-110 transition-all ease-out mr-4"/>
+        <FontAwesomeIcon icon={faEdit} onClick={handleJobDelete} className="text-gray-400 hover:scale-110 focus:scale-110 transition-all ease-out"/>
+      </div>
+
     </div>
   );
 };
