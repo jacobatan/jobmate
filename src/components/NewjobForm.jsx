@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function NewjobForm(props) {
+  const ref = useRef();
+  useEffect(() => {
+    const checkIfClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        props.toggleModal();
+      }
+    };
+    document.addEventListener("click", checkIfClickOutside);
+    return () => {
+      document.removeEventListener("click", checkIfClickOutside);
+    };
+  }, [props.toggleModal]);
   return (
     <div
-      className={`${
-        props.showNewJobForm ? "inline-flex" : "hidden"
-      } justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none 
+      className={`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none 
       focus:outline-none cursor-pointer p-10 h-screen bg-slate-600/50 `}
-      onClick={props.toggleModal}
     >
       {/* contents */}
-      <div className="border-0 rounded-2xl shadow-2xl relative flex flex-col w-2/5 bg-white outline-none cursor-default p-8">
+      <div
+        className="border-0 rounded-2xl shadow-2xl relative flex flex-col w-2/5 bg-white outline-none cursor-default p-8"
+        ref={ref}
+      >
         <div className="flex items-start justify-between p-5 rounded-t">
           <h3 className="text-xl font-bold">Add a new job</h3>
           <button
@@ -94,20 +106,23 @@ export default function NewjobForm(props) {
               />
             </div>
           </div>
+          <div className="flex flex-col py-2 w-full mx-auto">
+            <div className="form__text">Position</div>
 
-          <select
-            className="block"
-            required
-            onChange={props.handleNewJob}
-            name="status"
-            value={props.newJob.status}
-          >
-            <option value="offer">Offer</option>
-            <option defaultValue value="awaitingResponse">
-              Awaiting Response
-            </option>
-            <option value="rejected">Rejected</option>
-          </select>
+            <select
+              className="block"
+              required
+              onChange={props.handleNewJob}
+              name="status"
+              value={props.newJob.status}
+            >
+              <option value="offer">Offer</option>
+              <option defaultValue value="awaitingResponse">
+                Awaiting Response
+              </option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
 
           <button
             type="submit"
