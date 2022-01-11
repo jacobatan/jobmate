@@ -27,7 +27,7 @@ export default function NewjobForm({
     >
       {/* contents */}
       <div
-        className="border-0 rounded-2xl shadow-2xl relative flex flex-col w-full h-full md:h-auto xl:w-3/5 xl:h-auto 2xl:w-1/2 bg-white outline-none cursor-default p-8"
+        className="border-0 rounded-2xl shadow-2xl relative flex flex-col w-full my-auto h-auto md:h-auto xl:w-3/5 xl:h-auto 2xl:w-1/2 bg-white outline-none cursor-default p-8"
         ref={ref}
       >
         <div className="flex items-start justify-between p-5 rounded-t">
