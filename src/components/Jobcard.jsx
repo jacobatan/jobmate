@@ -1,15 +1,18 @@
 import React from "react";
 
-const Jobcard = ({ newJob, handleJobDelete, date }) => {
+const Jobcard = ({ newJob, handleJobDelete }) => {
+  // changes the colour of the text + baackground on the status btn
   const colour =
     newJob.status === "rejected"
       ? "red"
       : newJob.status === "offer"
       ? "green"
       : "orange";
-  console.log(colour);
+
+  let dateApplied = new Date(newJob.date);
+  let dateAppliedArr = dateApplied.toDateString().split(" ");
+  let dateAppliedFormat = dateAppliedArr[2] + " " + dateAppliedArr[1];
   return (
-    // bg-red-100 for rej, bg-green-100 for acc, bg-white for pending
     <div className="p-6 shadow-md rounded-xl bg-white cursor-pointer hover:bg-gray-200 transform transition mx-2 ease-out ">
       {/* Card Header*/}
       <div className="flex justify-between items-center pb-3">
@@ -23,7 +26,7 @@ const Jobcard = ({ newJob, handleJobDelete, date }) => {
           </div>
           <p>{newJob.company}</p>
         </div>
-        <p className="text-sm text-gray-400">{date}</p>
+        <p className="text-sm text-gray-400">{dateAppliedFormat}</p>
       </div>
       {/* Job title + loc */}
       <div className="pb-5">
