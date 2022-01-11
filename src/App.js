@@ -65,7 +65,7 @@ const App = () => {
   });
 
   return (
-    <div className="bg-gray-50 h-screen">
+    <div className="bg-gray-50 h-screen ">
       <Header />
       <Summary />
       {openModal && (
@@ -80,7 +80,7 @@ const App = () => {
 
       {/* main card */}
 
-      <section className="pt-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
+      <section className="py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
         <button
           className="border-2 border-dashed cursor-pointer"
           onClick={() => setOpenModal(true)}

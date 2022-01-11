@@ -3,7 +3,7 @@ import React from "react"
 const Summary = (props) => {
     return(
         //main summary div
-        <div className='w-full sm:mx-auto shadow-lg rounded-md transform transition-all ease-out bg-white md:max-w-screen-sm lg:max-w-screen-md sm:py-6 sm:flex items-center justify-between px-2'>
+        <div className='w-full sm:mx-auto shadow-lg rounded-md transform transition-all ease-out bg-white md:max-w-screen-sm lg:max-w-screen-md  py-2 sm:py-6 sm:flex items-center justify-between px-2'>
             
             {/* stats*/}
             <div className=" flex flex-col text-center sm:w-2/5 sm:my-6 sm:ml-8 transform transition-all ease-out ">
@@ -12,9 +12,9 @@ const Summary = (props) => {
                     <h3 className="text-sm leading-6 font-medium text-gray-400">Active Applications</h3>
                     <p className="text-3xl ">25</p>
                 </div>
-
+ 
                 {/* offers & awaiting response */}
-                <div className="flex text-sm leading-6 font-medium">
+                <div className="flex text-sm leading-6 font-medium mt-2">
                     <div className={`bg-green-300  rounded-lg mr-1  py-2 w-2/5 sm:py-4`}>5</div>
                     <div className={`bg-orange-300 rounded-lg py-2 w-3/5 sm:py-4`}>3</div>
                 </div>
