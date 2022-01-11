@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Jobcard from "./components/Jobcard";
 import NewjobForm from "./components/NewjobForm";
@@ -16,6 +16,7 @@ const App = () => {
   };
   const [newJob, setNewJob] = useState(defaultNewJob);
   const [showNewJobForm, setNewJobForm] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   //stores all current jobs
   const [allJobs, setAllJobs] = useState(
@@ -33,7 +34,7 @@ const App = () => {
   }
 
   //everytime new job is added, update local storage
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.setItem("allJobs", JSON.stringify(allJobs));
   }, [allJobs]);
 
@@ -53,9 +54,9 @@ const App = () => {
   // need to implement the delete job button
   function handleJobDelete(id) {
     console.log(`delete ${id}`);
-    const updatedJobs = [...allJobs]
-    console.log(updatedJobs)
-    setAllJobs(updatedJobs.splice(id,1))
+    const updatedJobs = [...allJobs];
+    console.log(updatedJobs);
+    setAllJobs(updatedJobs.splice(id, 1));
   }
 
   //maps over all jobs and renders the jsx
@@ -70,26 +71,29 @@ const App = () => {
   });
 
   function toggleModal() {
-    setNewJobForm((old) => !old);
+    setNewJobForm((old) => console.log(old));
   }
-
   return (
     <div className="bg-gray-50 h-screen">
       <Header />
-      <Summary/>
-      <NewjobForm
-        showNewJobForm={showNewJobForm}
-        handleNewJob={handleNewJob}
-        newJob={newJob}
-        renderNewJob={renderNewJob}
-        toggleModal={toggleModal}
-      />
+      <Summary />
+      {openModal && (
+        <NewjobForm
+          showNewJobForm={showNewJobForm}
+          handleNewJob={handleNewJob}
+          newJob={newJob}
+          renderNewJob={renderNewJob}
+          toggleModal={() => setOpenModal(false)}
+        />
+      )}
 
       {/* main card */}
 
       <section className="pt-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
-        
-        <button className="border-2 border-dashed cursor-pointer" onClick={toggleModal}>
+        <button
+          className="border-2 border-dashed cursor-pointer"
+          onClick={() => setOpenModal(true)}
+        >
           {" "}
           Add New Job{" "}
         </button>
