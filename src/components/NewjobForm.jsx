@@ -23,11 +23,11 @@ export default function NewjobForm({
   return (
     <div
       className={`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none 
-      focus:outline-none cursor-pointer p-10 h-screen bg-slate-600/50 `}
+      focus:outline-none cursor-pointer h-screen p-2 bg-slate-600/50 `}
     >
       {/* contents */}
       <div
-        className="border-0 rounded-2xl shadow-2xl relative flex flex-col w-full h-full md:h-auto xl:w-3/5 xl:h-auto 2xl:w-1/2 bg-white outline-none cursor-default p-8"
+        className="border-0 rounded-2xl shadow-2xl relative flex flex-col w-full sm:max-w-screen-sm h-full min-h-min md:h-auto xl:w-3/5 xl:h-auto 2xl:w-1/2 bg-white outline-none cursor-default p-2 md:w-1/2 "
         ref={ref}
       >
         <div className="flex items-start justify-between p-5 rounded-t">
@@ -88,7 +88,7 @@ export default function NewjobForm({
 
           <div className="w-11/12 mx-auto ">
             <div className="flex flex-col py-2 w-full">
-              <div className="form__text">Date started</div>
+              <div className="form__text">Date Applied</div>
               <input
                 required
                 className="form__input"
@@ -105,7 +105,6 @@ export default function NewjobForm({
               <div className="form__text">Notes</div>
               <textarea
                 className="form__input h-[150px]"
-                required
                 onChange={handleNewJob}
                 type="text"
                 name="notes"
@@ -134,7 +133,7 @@ export default function NewjobForm({
 
           <button
             type="submit"
-            className="w-11/12 text-lg xl:text-2xl font-semibold mx-auto bg-green-500 text-white px-4 py-4 rounded-md mt-4 
+            className="w-1/2 text-lg xl:text-2xl font-semibold mx-auto bg-green-500 text-white p-4 rounded-md mt-2 
             hover:bg-green-600 transform transition ease-out"
           >
             Add Job <span className="font-normal">➜</span>
