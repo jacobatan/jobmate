@@ -43,20 +43,14 @@ const App = () => {
     event.preventDefault();
     const latestJob = newJob;
     //  update all jobs
-    setAllJobs((allPrevJobs) => {
-      return [...allPrevJobs, latestJob];
-    });
-    // !!!!!!!!!!!!!!!FOR SOME REASON DATE DOESNT get displayed !!!!!!!//
+    setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
     setNewJob(defaultNewJob); //clear the form and default the state
     setNewJobForm((old) => !old);
   }
 
-  // need to implement the delete job button
   function handleJobDelete(id) {
-    console.log(`delete ${id}`);
-    const updatedJobs = [...allJobs];
-    console.log(updatedJobs);
-    setAllJobs(updatedJobs.splice(id, 1));
+    const newJobs = allJobs.filter((_, i) => i != id);
+    setAllJobs(newJobs);
   }
 
   //maps over all jobs and renders the jsx
@@ -70,9 +64,6 @@ const App = () => {
     );
   });
 
-  function toggleModal() {
-    setNewJobForm((old) => console.log(old));
-  }
   return (
     <div className="bg-gray-50 h-screen">
       <Header />
