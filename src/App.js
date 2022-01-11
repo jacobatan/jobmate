@@ -53,6 +53,9 @@ const App = () => {
   // need to implement the delete job button
   function handleJobDelete(id) {
     console.log(`delete ${id}`);
+    const updatedJobs = [...allJobs]
+    console.log(updatedJobs)
+    setAllJobs(updatedJobs.splice(id,1))
   }
 
   //maps over all jobs and renders the jsx
@@ -84,14 +87,13 @@ const App = () => {
 
       {/* main card */}
 
-      {/*  */}
-
       <section className="pt-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
-        {renderAllJobs}
-        <button className="border-2 cursor-pointer" onClick={toggleModal}>
+        
+        <button className="border-2 border-dashed cursor-pointer" onClick={toggleModal}>
           {" "}
           Add New Job{" "}
         </button>
+        {renderAllJobs}
       </section>
     </div>
   );
