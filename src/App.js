@@ -84,6 +84,8 @@ const App = () => {
 
       {/* main card */}
 
+      {/*  */}
+
       <section className="pt-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
         {renderAllJobs}
         <button className="border-2 cursor-pointer" onClick={toggleModal}>
