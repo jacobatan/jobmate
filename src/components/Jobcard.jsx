@@ -15,7 +15,7 @@ const Jobcard = ({ newJob, handleJobDelete, editJobCard }) => {
   let dateAppliedArr = dateApplied.toDateString().split(" ");
   let dateAppliedFormat = dateAppliedArr[2] + " " + dateAppliedArr[1];
   return (
-    <div className="p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-2xl transform transition mx-2 ease-out ">
+    <div className="flex flex-col p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-2xl transform transition mx-2 ease-out ">
       {/* Card Header*/}
       <div className="flex justify-between items-center pb-3">
         <div className="flex items-center space-x-2">
