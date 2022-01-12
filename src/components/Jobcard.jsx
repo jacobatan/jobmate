@@ -12,7 +12,7 @@ const Jobcard = ({ newJob, handleJobDelete, date }) => {
 
   return (
     // bg-red-100 for rej, bg-green-100 for acc, bg-white for pending
-    <div className=" flex flex-col p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-lg transform transition mx-2 ease-out w-3/5 lg:w-full min-w-fit max-w-l">
+    <div className="p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-2xl transform transition mx-2 ease-out ">
       {/* Card Header*/}
       <div className="flex justify-between items-center pb-3">
         <div className="flex items-center space-x-2">
