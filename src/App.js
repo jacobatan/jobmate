@@ -4,8 +4,23 @@ import Jobcard from "./components/Jobcard";
 import NewjobForm from "./components/NewjobForm";
 import Summary from "./components/Summary";
 import Login from "./components/Login";
+import { db } from "./firebase";
+import { getDocs, collection, addDoc } from "firebase/firestore";
 
 const App = () => {
+  // Get collection data
+  const colRef = collection(db, "gamers");
+  async function getGamers(db) {
+    // grab that snapshot
+    const snapshot = await getDocs(colRef);
+    // this maps the datas to the list var
+    const list = snapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id };
+    });
+    // console.log(list);
+  }
+  getGamers(db);
+
   //state for adding new job
   const defaultNewJob = {
     company: "",
@@ -19,11 +34,10 @@ const App = () => {
   const [showNewJobForm, setNewJobForm] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
-  const [edit, setEdit] = useState(
-      {
-        edit: false, 
-        id: null
-      });
+  const [edit, setEdit] = useState({
+    edit: false,
+    id: null,
+  });
 
   //stores all current jobs
   const [allJobs, setAllJobs] = useState(
@@ -45,24 +59,32 @@ const App = () => {
     });
   }
 
-
   //uses the upadated new job state to create a new Jobcard Component
   function renderNewJob(event) {
     event.preventDefault();
     const latestJob = newJob;
+    // This lets us add shit to the database, in my case im adding 'cbum' to my gamers database
+    // the id is always randomised.
+    addDoc(colRef, {
+      company: latestJob.company,
+      position: latestJob.position,
+      location: latestJob.location,
+      notes: latestJob.notes,
+      status: latestJob.status,
+      date: latestJob.date,
+    });
     //  update all jobs
-    if(edit.edit) {
-      handleJobEdit(edit.id)
+    if (edit.edit) {
+      handleJobEdit(edit.id);
     } else {
       setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
       setNewJob(defaultNewJob); //clear the form and default the state
       setNewJobForm((old) => !old);
     }
-
   }
 
   function handleJobDelete(id) {
-    const updatedJobs = [...allJobs]
+    const updatedJobs = [...allJobs];
     const newJobs = updatedJobs.filter((_, i) => i != id);
     setAllJobs(newJobs);
   }
@@ -73,25 +95,27 @@ const App = () => {
   }
 
   function handleJobEdit(id) {
-    setAllJobs(prevJobs => prevJobs.map((job, i) => {
-      if(i===id) {
-        return {
-          ...newJob
+    setAllJobs((prevJobs) =>
+      prevJobs.map((job, i) => {
+        if (i === id) {
+          return {
+            ...newJob,
+          };
+        } else {
+          return job;
         }
-      } else{
-        return job
-      }
-    }))
-    setEdit({edit: false, id: null})
+      })
+    );
+    setEdit({ edit: false, id: null });
     setNewJob(defaultNewJob); //clear the form and default the state
     setNewJobForm((old) => !old);
-    setOpenModal(old=>!old)
+    setOpenModal((old) => !old);
   }
 
   function editJobCard(id) {
-    setEdit({edit: true, id: id}); //state which tracks if its a edit or new job
-    setNewJob(allJobs[id]) //sets values of form to old values 
-    setOpenModal(old=>!old)
+    setEdit({ edit: true, id: id }); //state which tracks if its a edit or new job
+    setNewJob(allJobs[id]); //sets values of form to old values
+    setOpenModal((old) => !old);
   }
 
   //maps over all jobs and renders the jsx
@@ -101,7 +125,7 @@ const App = () => {
         key={i}
         newJob={job}
         handleJobDelete={() => handleJobDelete(i)}
-        editJobCard = {() => editJobCard(i)}
+        editJobCard={() => editJobCard(i)}
       />
     );
   });
