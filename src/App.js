@@ -57,7 +57,7 @@ const App = () => {
 
   //authenticates login page
   function loginAuthentication() {
-    setLoginSuccess(true)
+    setLoginSuccess(true);
   }
 
   //maps over all jobs and renders the jsx
@@ -73,12 +73,11 @@ const App = () => {
 
   return (
     <div className=" h-screen ">
-
-      {!loginSuccess && <Login loginSuccess={loginAuthentication}/> } 
+      {!loginSuccess && <Login loginSuccess={loginAuthentication} />}
 
       {/* content */}
-      { loginSuccess && 
-        <div  > 
+      {loginSuccess && (
+        <div>
           <Header />
           <Summary />
           {openModal && (
@@ -92,7 +91,7 @@ const App = () => {
           )}
 
           {/* main card */}
-          <section className="py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
+          <section className="py-12 grid grid-cols-1  md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
             <button
               className="border-2 border-dashed cursor-pointer"
               onClick={() => setOpenModal(true)}
@@ -102,8 +101,8 @@ const App = () => {
             </button>
             {renderAllJobs}
           </section>
-
-        </div> }
+        </div>
+      )}
     </div>
   );
 };
