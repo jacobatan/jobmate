@@ -19,11 +19,21 @@ const App = () => {
   const [showNewJobForm, setNewJobForm] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [edit, setEdit] = useState(
+      {
+        edit: false, 
+        id: null
+      });
 
   //stores all current jobs
   const [allJobs, setAllJobs] = useState(
     JSON.parse(localStorage.getItem("allJobs")) || []
   );
+
+  //everytime new job is added, update local storage
+  useEffect(() => {
+    localStorage.setItem("allJobs", JSON.stringify(allJobs));
+  }, [allJobs]);
 
   //recieves new job data and stores it in state, newJob
   function handleNewJob(event) {
@@ -35,23 +45,25 @@ const App = () => {
     });
   }
 
-  //everytime new job is added, update local storage
-  useEffect(() => {
-    localStorage.setItem("allJobs", JSON.stringify(allJobs));
-  }, [allJobs]);
 
   //uses the upadated new job state to create a new Jobcard Component
   function renderNewJob(event) {
     event.preventDefault();
     const latestJob = newJob;
     //  update all jobs
-    setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
-    setNewJob(defaultNewJob); //clear the form and default the state
-    setNewJobForm((old) => !old);
+    if(edit.edit) {
+      handleJobEdit(edit.id)
+    } else {
+      setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
+      setNewJob(defaultNewJob); //clear the form and default the state
+      setNewJobForm((old) => !old);
+    }
+
   }
 
   function handleJobDelete(id) {
-    const newJobs = allJobs.filter((_, i) => i != id);
+    const updatedJobs = [...allJobs]
+    const newJobs = updatedJobs.filter((_, i) => i != id);
     setAllJobs(newJobs);
   }
 
@@ -60,9 +72,26 @@ const App = () => {
     setLoginSuccess(true);
   }
 
-  function editJobCard(i) {
-    setOpenModal(true)
-    console.log(`edit ${i}`)
+  function handleJobEdit(id) {
+    setAllJobs(prevJobs => prevJobs.map((job, i) => {
+      if(i===id) {
+        return {
+          ...newJob
+        }
+      } else{
+        return job
+      }
+    }))
+    setEdit({edit: false, id: null})
+    setNewJob(defaultNewJob); //clear the form and default the state
+    setNewJobForm((old) => !old);
+    setOpenModal(old=>!old)
+  }
+
+  function editJobCard(id) {
+    setEdit({edit: true, id: id}); //state which tracks if its a edit or new job
+    setNewJob(allJobs[id]) //sets values of form to old values 
+    setOpenModal(old=>!old)
   }
 
   //maps over all jobs and renders the jsx
