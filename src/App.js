@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Jobcard from "./components/Jobcard";
 import NewjobForm from "./components/NewjobForm";
 import Summary from "./components/Summary";
+import Login from "./components/Login";
 
 const App = () => {
   //state for adding new job
@@ -17,6 +18,7 @@ const App = () => {
   const [newJob, setNewJob] = useState(defaultNewJob);
   const [showNewJobForm, setNewJobForm] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   //stores all current jobs
   const [allJobs, setAllJobs] = useState(
@@ -53,6 +55,11 @@ const App = () => {
     setAllJobs(newJobs);
   }
 
+  //authenticates login page
+  function loginAuthentication() {
+    setLoginSuccess(true)
+  }
+
   //maps over all jobs and renders the jsx
   const renderAllJobs = allJobs.map((job, i) => {
     return (
@@ -65,31 +72,38 @@ const App = () => {
   });
 
   return (
-    <div className="bg-gray-50 h-screen ">
-      <Header />
-      <Summary />
-      {openModal && (
-        <NewjobForm
-          showNewJobForm={showNewJobForm}
-          handleNewJob={handleNewJob}
-          newJob={newJob}
-          renderNewJob={renderNewJob}
-          toggleModal={() => setOpenModal(false)}
-        />
-      )}
+    <div className=" h-screen ">
 
-      {/* main card */}
+      {!loginSuccess && <Login loginSuccess={loginAuthentication}/> } 
 
-      <section className="py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6">
-        <button
-          className="border-2 border-dashed cursor-pointer"
-          onClick={() => setOpenModal(true)}
-        >
-          {" "}
-          Add New Job{" "}
-        </button>
-        {renderAllJobs}
-      </section>
+      {/* content */}
+      { loginSuccess && 
+        <div  > 
+          <Header />
+          <Summary />
+          {openModal && (
+            <NewjobForm
+              showNewJobForm={showNewJobForm}
+              handleNewJob={handleNewJob}
+              newJob={newJob}
+              renderNewJob={renderNewJob}
+              toggleModal={() => setOpenModal(false)}
+            />
+          )}
+
+          {/* main card */}
+          <section className="py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
+            <button
+              className="border-2 border-dashed cursor-pointer"
+              onClick={() => setOpenModal(true)}
+            >
+              {" "}
+              Add New Job{" "}
+            </button>
+            {renderAllJobs}
+          </section>
+
+        </div> }
     </div>
   );
 };
