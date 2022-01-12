@@ -12,11 +12,7 @@ const Jobcard = ({ newJob, handleJobDelete, date }) => {
 
   return (
     // bg-red-100 for rej, bg-green-100 for acc, bg-white for pending
-<<<<<<< Updated upstream
-    <div className="p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-2xl transform transition mx-2 ease-out ">
-=======
     <div className=" p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-2xl transform transition mx-2 ease-out">
->>>>>>> Stashed changes
       {/* Card Header*/}
       <div className="flex justify-between items-center pb-3">
         <div className="flex items-center space-x-2">
