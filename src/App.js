@@ -60,6 +60,11 @@ const App = () => {
     setLoginSuccess(true)
   }
 
+  function editJobCard(i) {
+    setOpenModal(true)
+    console.log(`edit ${i}`)
+  }
+
   //maps over all jobs and renders the jsx
   const renderAllJobs = allJobs.map((job, i) => {
     return (
@@ -67,6 +72,7 @@ const App = () => {
         key={i}
         newJob={job}
         handleJobDelete={() => handleJobDelete(i)}
+        editJobCard = {() => editJobCard(i)}
       />
     );
   });

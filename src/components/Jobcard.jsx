@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
 
-const Jobcard = ({ newJob, handleJobDelete }) => {
+const Jobcard = ({ newJob, handleJobDelete, editJobCard }) => {
   // changes the colour of the text + baackground on the status btn
   const colour =
     newJob.status === "rejected"
@@ -54,7 +54,7 @@ const Jobcard = ({ newJob, handleJobDelete }) => {
       {/* call to actoin */}
       <div className="self-end">
         <FontAwesomeIcon icon={faTrashAlt} onClick={handleJobDelete} className="text-red-400  hover:scale-110 focus:scale-110 transition-all ease-out mr-4"/>
-        <FontAwesomeIcon icon={faEdit} onClick={handleJobDelete} className="text-gray-400 hover:scale-110 focus:scale-110 transition-all ease-out"/>
+        <FontAwesomeIcon icon={faEdit} onClick={editJobCard} className="text-gray-400 hover:scale-110 focus:scale-110 transition-all ease-out"/>
       </div>
 
     </div>

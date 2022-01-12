@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
 export default function NewjobForm({
-  showNewJobForm,
   handleNewJob,
   newJob,
   renderNewJob,
