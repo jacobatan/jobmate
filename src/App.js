@@ -53,10 +53,8 @@ const App = () => {
   }
 
   function handleJobDelete(id) {
-    console.log(`delete ${id}`);
-    const updatedJobs = [...allJobs];
-    console.log(updatedJobs);
-    setAllJobs(updatedJobs.splice(id, 1));
+    const newJobs = allJobs.filter((_, i) => i != id);
+    setAllJobs(newJobs);
   }
 
   //authenticates login page
