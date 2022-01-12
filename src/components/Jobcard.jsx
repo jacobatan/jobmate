@@ -9,6 +9,10 @@ const Jobcard = ({ newJob, handleJobDelete, date }) => {
       : newJob.status === "offer"
       ? "green"
       : "orange";
+    
+  let dateApplied = new Date(newJob.date);
+  let dateAppliedArr = dateApplied.toDateString().split(" ");
+  let dateAppliedFormat = dateAppliedArr[2] + " " + dateAppliedArr[1];
 
   return (
     // bg-red-100 for rej, bg-green-100 for acc, bg-white for pending
@@ -26,7 +30,7 @@ const Jobcard = ({ newJob, handleJobDelete, date }) => {
           </div>
           <p>{newJob.company}</p>
         </div>
-        <p className="text-sm text-gray-400">{date}</p>
+        <p className="text-sm text-gray-400">{dateAppliedFormat}</p>
       </div>
       {/* Job title + loc */}
       <div className="pb-5">
