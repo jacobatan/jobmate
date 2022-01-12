@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Jobcard from "./components/Jobcard";
 import NewjobForm from "./components/NewjobForm";
 import Summary from "./components/Summary";
+import Login from "./components/Login";
 
 const App = () => {
   //state for adding new job
@@ -17,6 +18,7 @@ const App = () => {
   const [newJob, setNewJob] = useState(defaultNewJob);
   const [showNewJobForm, setNewJobForm] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   //stores all current jobs
   const [allJobs, setAllJobs] = useState(
@@ -46,17 +48,20 @@ const App = () => {
     setAllJobs((allPrevJobs) => {
       return [...allPrevJobs, latestJob];
     });
-    // !!!!!!!!!!!!!!!FOR SOME REASON DATE DOESNT get displayed !!!!!!!//
     setNewJob(defaultNewJob); //clear the form and default the state
     setNewJobForm((old) => !old);
   }
 
-  // need to implement the delete job button
   function handleJobDelete(id) {
     console.log(`delete ${id}`);
     const updatedJobs = [...allJobs];
     console.log(updatedJobs);
     setAllJobs(updatedJobs.splice(id, 1));
+  }
+
+  //authenticates login page
+  function loginAuthentication() {
+    setLoginSuccess(true)
   }
 
   //maps over all jobs and renders the jsx
@@ -74,35 +79,38 @@ const App = () => {
     setNewJobForm((old) => console.log(old));
   }
   return (
-    <div className="bg-gray-50 h-screen ">
-      <Header />
-      <Summary />
-      {openModal && (
-        <NewjobForm
-          showNewJobForm={showNewJobForm}
-          handleNewJob={handleNewJob}
-          newJob={newJob}
-          renderNewJob={renderNewJob}
-          toggleModal={() => setOpenModal(false)}
-        />
-      )}
+    <div className=" h-screen ">
 
-      {/* main card */}
+      {!loginSuccess && <Login loginSuccess={loginAuthentication}/> } 
 
-      {/* py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 */}
+      {/* content */}
+      { loginSuccess && 
+        <div  > 
+          <Header />
+          <Summary />
+          {openModal && (
+            <NewjobForm
+              showNewJobForm={showNewJobForm}
+              handleNewJob={handleNewJob}
+              newJob={newJob}
+              renderNewJob={renderNewJob}
+              toggleModal={() => setOpenModal(false)}
+            />
+          )}
 
-      {/* py-12 grid md:grid-cols-3 grid-flow-row md:max-w-sm lg:max-w-7xl  mx-auto gap-x-6 gap-y-6 justify-items-center md:justify-items-start */}
+          {/* main card */}
+          <section className="py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
+            <button
+              className="border-2 border-dashed cursor-pointer"
+              onClick={() => setOpenModal(true)}
+            >
+              {" "}
+              Add New Job{" "}
+            </button>
+            {renderAllJobs}
+          </section>
 
-      <section className="py-12 grid grid-cols-1 md:max-w-sm md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
-        <button
-          className="border-2 border-dashed cursor-pointer"
-          onClick={() => setOpenModal(true)}
-        >
-          {" "}
-          Add New Job{" "}
-        </button>
-        {renderAllJobs}
-      </section>
+        </div> }
     </div>
   );
 };
