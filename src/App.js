@@ -10,16 +10,19 @@ import { getDocs, collection, addDoc } from "firebase/firestore";
 const App = () => {
   // Get collection data
   const colRef = collection(db, "gamers");
-  async function getGamers(db) {
+  const [firebaseJobs, setFirebaseJobs] = useState("lmaoo");
+
+  async function getGamers() {
     // grab that snapshot
     const snapshot = await getDocs(colRef);
     // this maps the datas to the list var
-    const list = snapshot.docs.map((doc) => {
+    setFirebaseJobs();
+    let gamerSnapshot = snapshot.docs.map((doc) => {
       return { ...doc.data(), id: doc.id };
     });
-    // console.log(list);
+    setFirebaseJobs(gamerSnapshot);
   }
-  getGamers(db);
+  console.log(firebaseJobs);
 
   //state for adding new job
   const defaultNewJob = {
@@ -63,8 +66,7 @@ const App = () => {
   function renderNewJob(event) {
     event.preventDefault();
     const latestJob = newJob;
-    // This lets us add shit to the database, in my case im adding 'cbum' to my gamers database
-    // the id is always randomised.
+    // This lets us add shit to the database the id is always randomised.
     addDoc(colRef, {
       company: latestJob.company,
       position: latestJob.position,
@@ -118,8 +120,9 @@ const App = () => {
     setOpenModal((old) => !old);
   }
 
-  //maps over all jobs and renders the jsx
-  const renderAllJobs = allJobs.map((job, i) => {
+  //maps over all jobs and renders the jsx by local storage
+  const renderAllJobs = firebaseJobs?.map((job, i) => {
+    getGamers();
     return (
       <Jobcard
         key={i}
