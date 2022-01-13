@@ -118,7 +118,7 @@ export default function NewjobForm({
               <div className="flex flex-col py-2 w-full">
                 <div className="form__text">Job Status</div>
                 <select
-                  className="form__input  "
+                  className="form__input "
                   required
                   onChange={handleNewJob}
                   name="status"

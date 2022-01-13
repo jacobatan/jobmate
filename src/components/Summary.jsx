@@ -1,6 +1,17 @@
 import React from "react"
 
 const Summary = (props) => {
+
+    const totalActiveOffers = props.summary.offers + props.summary.awaitingResponse
+    const offersWidth = totalActiveOffers ? (props.summary.offers / totalActiveOffers) * 100 : 50;
+    const awaitWidth = 100-offersWidth;
+    const offersStyles = {
+        width: `${offersWidth}%`
+    }
+    const awaitStyles = {
+        width: `${awaitWidth}%`
+    }
+
     return(
         //main summary div
         <div className='w-full sm:mx-auto shadow-lg rounded-md transform transition-all ease-out bg-white md:max-w-screen-sm lg:max-w-screen-md  py-2 sm:py-6 sm:flex items-center justify-between px-2'>
@@ -10,13 +21,24 @@ const Summary = (props) => {
                 {/* total jobs */}
                 <div className="bg-white rounded-lg my-1 w-full shadow py-2"> 
                     <h3 className="text-sm leading-6 font-medium text-gray-400">Active Applications</h3>
-                    <p className="text-3xl ">25</p>
+                    <p className="text-3xl ">{totalActiveOffers}</p>
+                    <div className="grid grid-cols-2 italic text-xs "> 
+                        <p className=" text-green-300 mx-auto  ">offers</p>
+                        <p className="text-orange-300 mx-auto "> awaiting responses</p>
+                    </div>
+
                 </div>
  
                 {/* offers & awaiting response */}
-                <div className="flex text-sm leading-6 font-medium mt-2">
-                    <div className={`bg-green-300  rounded-lg mr-1  py-2 w-2/5 sm:py-4`}>5</div>
-                    <div className={`bg-orange-300 rounded-lg py-2 w-3/5 sm:py-4`}>3</div>
+                <div className="flex text-sm leading-6 text-center font-medium mt-2">
+                    <div style={offersStyles} className={`relative bg-green-300 hover:shadow-md rounded-lg mr-1 px-2 py-2 sm:py-4 transition-all ease-out `}>
+                        <p >{props.summary.offers} </p>
+                    </div>
+
+                    <div style={awaitStyles} className={`relative  bg-orange-300 hover:shadow-md rounded-lg mr-1 px-2  py-2 sm:py-4 transition-all ease-out `}>
+                        <p>{props.summary.awaitingResponse}</p>
+                    </div>
+                    
                 </div>
             </div>
 
