@@ -22,7 +22,7 @@ const Summary = (props) => {
                 <div className="bg-white rounded-lg my-1 w-full shadow py-2"> 
                     <h3 className="text-sm leading-6 font-medium text-gray-400">Active Applications</h3>
                     <p className="text-3xl ">{totalActiveOffers}</p>
-                    <div className="flex justify-between italic text-xs "> 
+                    <div className="grid grid-cols-2 italic text-xs "> 
                         <p className=" text-green-300 mx-auto  ">offers</p>
                         <p className="text-orange-300 mx-auto "> awaiting responses</p>
                     </div>
