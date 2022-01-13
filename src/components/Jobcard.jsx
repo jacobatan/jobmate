@@ -6,11 +6,14 @@ const Jobcard = ({ newJob, handleJobDelete, editJobCard }) => {
   // changes the colour of the text + baackground on the status btn
   const colour =
     newJob.status === "rejected"
-      ? "red"
+      ? "#F87171"
       : newJob.status === "offer"
-      ? "green"
-      : "orange";
+      ? "#86EFAC"
+      : "#FDBA74";
 
+  const tagStyles = {
+    backgroundColor: colour
+  }
   let dateApplied = new Date(newJob.date);
   let dateAppliedArr = dateApplied.toDateString().split(" ");
   let dateAppliedFormat = dateAppliedArr[2] + " " + dateAppliedArr[1];
@@ -39,7 +42,8 @@ const Jobcard = ({ newJob, handleJobDelete, editJobCard }) => {
       {/* Tags */}
       <div className="hidden sm:inline-block space-x-1 pb-7">
         <button
-          className={`rounded-xl bg-${colour}-200 py-0.5 px-2 text-sm text-${colour}-600`}
+          style = {tagStyles}
+          className={`rounded-xl  py-0.5 px-2 text-sm `}
         >
           {newJob.status === "rejected"
             ? "Rejected"
