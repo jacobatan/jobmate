@@ -4,6 +4,8 @@ import Jobcard from "./components/Jobcard";
 import NewjobForm from "./components/NewjobForm";
 import Summary from "./components/Summary";
 import Login from "./components/Login";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 const App = () => {
   //state for adding new job
@@ -140,11 +142,10 @@ const App = () => {
           {/* main card */}
           <section className="py-12 grid grid-cols-1  md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
             <button
-              className="border-2 border-dashed cursor-pointer"
+              className="border-2 hover:blur-sm hover:shadow-lg focus:blur-sm focus:shadow-lg  border-dashed cursor-pointer text-xl opacity-60"
               onClick={() => setOpenModal(true)}
             >
-              {" "}
-              Add New Job{" "}
+              <FontAwesomeIcon icon={faPlusCircle} className="my-2 fa-2x block mx-auto"/>
             </button>
             {renderAllJobs}
           </section>
