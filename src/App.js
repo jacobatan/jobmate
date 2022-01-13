@@ -12,7 +12,7 @@ const App = () => {
     position: "",
     location: "",
     notes: "",
-    status: "",
+    status: 'awaitingResponse',
     date: "",
   };
   const [newJob, setNewJob] = useState(defaultNewJob);
@@ -24,6 +24,12 @@ const App = () => {
         edit: false, 
         id: null
       });
+  const [summary, setSummary] = useState(
+    {
+      offers: 0, 
+      awaitingResponse: 0
+    }
+  )
 
   //stores all current jobs
   const [allJobs, setAllJobs] = useState(
@@ -33,7 +39,13 @@ const App = () => {
   //everytime new job is added, update local storage
   useEffect(() => {
     localStorage.setItem("allJobs", JSON.stringify(allJobs));
+    const offers = allJobs.filter(job => job.status === 'offer').length;
+    const awaitingResponse = allJobs.filter(job => job.status === 'awaitingResponse').length;
+
+    setSummary({offers: offers, awaitingResponse: awaitingResponse})
   }, [allJobs]);
+
+
 
   //recieves new job data and stores it in state, newJob
   function handleNewJob(event) {
@@ -114,7 +126,7 @@ const App = () => {
       {loginSuccess && (
         <div>
           <Header />
-          <Summary />
+          <Summary summary={summary}/>
           {openModal && (
             <NewjobForm
               showNewJobForm={showNewJobForm}
