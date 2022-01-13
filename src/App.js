@@ -8,6 +8,24 @@ import { db } from "./firebase";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 
 const App = () => {
+  const [newJob, setNewJob] = useState(defaultNewJob);
+  const [showNewJobForm, setNewJobForm] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [edit, setEdit] = useState({
+    edit: false,
+    id: null,
+  });
+  //authenticates login page
+  function loginAuthentication() {
+    setLoginSuccess(true);
+  }
+  function editJobCard(id) {
+    setEdit({ edit: true, id: id }); //state which tracks if its a edit or new job
+    setNewJob(allJobs[id]); //sets values of form to old values
+    setOpenModal((old) => !old);
+  }
+
   // Get collection data
   const colRef = collection(db, "gamers");
   const [firebaseJobs, setFirebaseJobs] = useState("lmaoo");
@@ -22,7 +40,6 @@ const App = () => {
     });
     setFirebaseJobs(gamerSnapshot);
   }
-  console.log(firebaseJobs);
 
   //state for adding new job
   const defaultNewJob = {
@@ -33,67 +50,15 @@ const App = () => {
     status: "",
     date: "",
   };
-  const [newJob, setNewJob] = useState(defaultNewJob);
-  const [showNewJobForm, setNewJobForm] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  const [edit, setEdit] = useState({
-    edit: false,
-    id: null,
-  });
 
   //stores all current jobs
   const [allJobs, setAllJobs] = useState(
     JSON.parse(localStorage.getItem("allJobs")) || []
   );
-
-  //everytime new job is added, update local storage
-  useEffect(() => {
-    localStorage.setItem("allJobs", JSON.stringify(allJobs));
-  }, [allJobs]);
-
-  //recieves new job data and stores it in state, newJob
-  function handleNewJob(event) {
-    setNewJob((prevJobData) => {
-      return {
-        ...prevJobData,
-        [event.target.name]: event.target.value,
-      };
-    });
-  }
-
-  //uses the upadated new job state to create a new Jobcard Component
-  function renderNewJob(event) {
-    event.preventDefault();
-    const latestJob = newJob;
-    // This lets us add shit to the database the id is always randomised.
-    addDoc(colRef, {
-      company: latestJob.company,
-      position: latestJob.position,
-      location: latestJob.location,
-      notes: latestJob.notes,
-      status: latestJob.status,
-      date: latestJob.date,
-    });
-    //  update all jobs
-    if (edit.edit) {
-      handleJobEdit(edit.id);
-    } else {
-      setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
-      setNewJob(defaultNewJob); //clear the form and default the state
-      setNewJobForm((old) => !old);
-    }
-  }
-
   function handleJobDelete(id) {
     const updatedJobs = [...allJobs];
     const newJobs = updatedJobs.filter((_, i) => i != id);
     setAllJobs(newJobs);
-  }
-
-  //authenticates login page
-  function loginAuthentication() {
-    setLoginSuccess(true);
   }
 
   function handleJobEdit(id) {
@@ -114,14 +79,46 @@ const App = () => {
     setOpenModal((old) => !old);
   }
 
-  function editJobCard(id) {
-    setEdit({ edit: true, id: id }); //state which tracks if its a edit or new job
-    setNewJob(allJobs[id]); //sets values of form to old values
-    setOpenModal((old) => !old);
+  //everytime new job is added, update local storage
+  useEffect(() => {
+    localStorage.setItem("allJobs", JSON.stringify(allJobs));
+  }, [allJobs]);
+
+  //recieves new job data and stores it in state, newJob
+  function handleNewJob(event) {
+    setNewJob((prevJobData) => {
+      return {
+        ...prevJobData,
+        [event.target.name]: event.target.value,
+      };
+    });
+    const latestJob = newJob;
+    // This lets us add shit to the database the id is always randomised.
+    addDoc(colRef, {
+      company: latestJob.company,
+      position: latestJob.position,
+      location: latestJob.location,
+      notes: latestJob.notes,
+      status: latestJob.status,
+      date: latestJob.date,
+    });
+  }
+
+  //uses the upadated new job state to create a new Jobcard Component
+  function renderNewJob(event) {
+    event.preventDefault();
+    //  update all jobs
+    if (edit.edit) {
+      handleJobEdit(edit.id);
+    } else {
+      setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
+      setNewJob(defaultNewJob); //clear the form and default the state
+      setNewJobForm((old) => !old);
+    }
   }
 
   //maps over all jobs and renders the jsx by local storage
-  const renderAllJobs = firebaseJobs?.map((job, i) => {
+  const renderAllJobs = allJobs.map((job, i) => {
     getGamers();
     return (
       <Jobcard
@@ -136,7 +133,6 @@ const App = () => {
   return (
     <div className=" h-screen ">
       {!loginSuccess && <Login loginSuccess={loginAuthentication} />}
-
       {/* content */}
       {loginSuccess && (
         <div>
