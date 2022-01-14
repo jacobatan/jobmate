@@ -108,6 +108,7 @@ const App = () => {
   function renderNewJob(event) {
     event.preventDefault();
     //  update all jobs
+    const latestJob = newJob;
     if (edit.edit) {
       handleJobEdit(edit.id);
     } else {
