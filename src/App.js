@@ -31,10 +31,14 @@ const App = () => {
     offers: 0,
     awaitingResponse: 0,
   });
+
   //stores all current jobs
   const [allJobs, setAllJobs] = useState(
     JSON.parse(localStorage.getItem("allJobs")) || []
   );
+
+  const [firebaseData, setFirebaseData] = useState();
+
   // --------------- FIREBASE STUFF THAT ACTUALLY FUCKING WORKS ------------------ //
 
   const colRef = collection(db, "gamers");
@@ -46,12 +50,12 @@ const App = () => {
       let gamerSnapshot = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
       });
-      console.log(gamerSnapshot);
+      setFirebaseData(gamerSnapshot);
     }
     getGamers();
-  }, [newJob]);
+  }, [showNewJobForm]);
 
-  //uses the upadated new job state to create a new Jobcard Component
+  // uses the updated new job state to create a new Jobcard Component
   function renderNewJob(event) {
     event.preventDefault();
     console.log("renderNewJob has been called!!");
@@ -135,7 +139,7 @@ const App = () => {
   }
 
   //maps over all jobs and renders the jsx
-  const renderAllJobs = allJobs.map((job, i) => {
+  const renderAllJobs = firebaseData?.map((job, i) => {
     return (
       <Jobcard
         key={i}
