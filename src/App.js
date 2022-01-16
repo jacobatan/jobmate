@@ -42,6 +42,7 @@ const App = () => {
   // --------------- FIREBASE STUFF THAT ACTUALLY FUCKING WORKS ------------------ //
 
   const colRef = collection(db, "gamers");
+
   useEffect(() => {
     async function getGamers() {
       // grab that snapshot
@@ -53,12 +54,12 @@ const App = () => {
       setFirebaseData(gamerSnapshot);
     }
     getGamers();
-  }, [showNewJobForm]);
+  }, [showNewJobForm, localJobDelete]);
 
   // uses the updated new job state to create a new Jobcard Component
+
   function renderNewJob(event) {
     event.preventDefault();
-    console.log("renderNewJob has been called!!");
     const latestJob = newJob; //  update all jobs
     addDoc(colRef, {
       company: latestJob.company,
@@ -76,7 +77,6 @@ const App = () => {
       setNewJobForm((old) => !old);
     }
   }
-
   // --------------- FIREBASE STUFF THAT ACTUALLY FUCKING WORKS ------------------ //
 
   //recieves new job data and stores it in state, newJob
@@ -103,7 +103,7 @@ const App = () => {
     setSummary({ offers: offers, awaitingResponse: awaitingResponse });
   }, [allJobs]);
 
-  function handleJobDelete(id) {
+  function localJobDelete(id) {
     const updatedJobs = [...allJobs];
     const newJobs = updatedJobs.filter((_, i) => i != id);
     setAllJobs(newJobs);
@@ -144,7 +144,7 @@ const App = () => {
       <Jobcard
         key={i}
         newJob={job}
-        handleJobDelete={() => handleJobDelete(i)}
+        localJobDelete={() => localJobDelete(i)}
         editJobCard={() => editJobCard(i)}
       />
     );
