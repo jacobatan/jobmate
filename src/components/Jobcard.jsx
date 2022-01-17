@@ -1,9 +1,17 @@
-import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
-
-const Jobcard = ({ newJob, handleJobDelete, editJobCard }) => {
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { db } from "../firebase";
+import {
+  getDocs,
+  collection,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+const Jobcard = ({ newJob, localJobDelete, editJobCard, id }) => {
   // changes the colour of the text + baackground on the status btn
+
   const colour =
     newJob.status === "rejected"
       ? "#F87171"
@@ -12,11 +20,18 @@ const Jobcard = ({ newJob, handleJobDelete, editJobCard }) => {
       : "#FDBA74";
 
   const tagStyles = {
-    backgroundColor: colour
-  }
+    backgroundColor: colour,
+  };
   let dateApplied = new Date(newJob.date);
   let dateAppliedArr = dateApplied.toDateString().split(" ");
   let dateAppliedFormat = dateAppliedArr[2] + " " + dateAppliedArr[1];
+
+  function fbDelete() {
+    const docRef = doc(db, "gamers", newJob.id);
+    deleteDoc(docRef);
+    localJobDelete();
+  }
+
   return (
     <div className="flex flex-col p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-2xl transform transition mx-2 ease-out ">
       {/* Card Header*/}
@@ -42,7 +57,7 @@ const Jobcard = ({ newJob, handleJobDelete, editJobCard }) => {
       {/* Tags */}
       <div className="hidden sm:inline-block space-x-1 pb-7">
         <button
-          style = {tagStyles}
+          style={tagStyles}
           className={`rounded-xl  py-0.5 px-2 text-sm `}
         >
           {newJob.status === "rejected"
@@ -53,14 +68,26 @@ const Jobcard = ({ newJob, handleJobDelete, editJobCard }) => {
         </button>
       </div>
 
-      <p className="hidden sm:block text-sm text-gray-400 ">{newJob.notes}</p>
+      <p
+        className="hidden sm:block text-sm 
+      text-gray-400 "
+      >
+        {newJob.notes}
+      </p>
 
       {/* call to actoin */}
       <div className="self-end">
-        <FontAwesomeIcon icon={faTrashAlt} onClick={handleJobDelete} className="text-red-400  hover:scale-110 focus:scale-110 transition-all ease-out mr-4"/>
-        <FontAwesomeIcon icon={faEdit} onClick={editJobCard} className="text-gray-400 hover:scale-110 focus:scale-110 transition-all ease-out"/>
+        <FontAwesomeIcon
+          icon={faTrashAlt}
+          onClick={fbDelete}
+          className="text-red-400  hover:scale-110 focus:scale-110 transition-all ease-out mr-4"
+        />
+        <FontAwesomeIcon
+          icon={faEdit}
+          onClick={() => editJobCard(id, newJob.id)}
+          className="text-gray-400 hover:scale-110 focus:scale-110 transition-all ease-out"
+        />
       </div>
-
     </div>
   );
 };
