@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { db } from "../firebase";
@@ -9,8 +9,9 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-const Jobcard = ({ newJob, localJobDelete, editJobCard }) => {
+const Jobcard = ({ newJob, localJobDelete, editJobCard, id }) => {
   // changes the colour of the text + baackground on the status btn
+
   const colour =
     newJob.status === "rejected"
       ? "#F87171"
@@ -83,7 +84,7 @@ const Jobcard = ({ newJob, localJobDelete, editJobCard }) => {
         />
         <FontAwesomeIcon
           icon={faEdit}
-          onClick={editJobCard}
+          onClick={() => editJobCard(id, newJob.id)}
           className="text-gray-400 hover:scale-110 focus:scale-110 transition-all ease-out"
         />
       </div>

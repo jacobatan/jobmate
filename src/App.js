@@ -32,6 +32,7 @@ const App = () => {
   const [edit, setEdit] = useState({
     edit: false,
     id: null,
+    fbid: null,
   });
   const [summary, setSummary] = useState({
     offers: 0,
@@ -44,8 +45,6 @@ const App = () => {
   );
 
   const [firebaseData, setFirebaseData] = useState();
-
-  // --------------- FIREBASE STUFF THAT ACTUALLY FUCKING WORKS ------------------ //
 
   const colRef = collection(db, "gamers");
 
@@ -69,7 +68,7 @@ const App = () => {
     const latestJob = newJob; //  update all jobs
 
     if (edit.edit) {
-      handleJobEdit(edit.id);
+      handleJobEdit(edit.id, edit.fbid);
     } else {
       setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
       setNewJob(defaultNewJob); //clear the form and default the state
@@ -84,7 +83,6 @@ const App = () => {
       });
     }
   }
-  // --------------- FIREBASE STUFF THAT ACTUALLY FUCKING WORKS ------------------ //
 
   //recieves new job data and stores it in state, newJob
   function handleNewJob(event) {
@@ -119,16 +117,16 @@ const App = () => {
     setLoginSuccess(true);
   }
 
-  function handleJobEdit(id) {
-    const docRef = doc(db, "gamers", "432rsvJ3KvhZ5F7RNM3H");
+  function handleJobEdit(id, fbid) {
+    const docRef = doc(db, "gamers", fbid);
     console.log(newJob);
     updateDoc(docRef, {
-      company: "awoooooooooooooga",
-      // position: latestJob.position,
-      // location: latestJob.location,
-      // notes: latestJob.notes,
-      // status: latestJob.status,
-      // date: latestJob.date,
+      company: newJob.company,
+      position: newJob.position,
+      location: newJob.location,
+      notes: newJob.notes,
+      status: newJob.status,
+      date: newJob.date,
     });
     setAllJobs((prevJobs) =>
       prevJobs.map((job, i) => {
@@ -148,8 +146,7 @@ const App = () => {
   }
 
   function editJobCard(id, fbid) {
-    console.log(fbid);
-    setEdit({ edit: true, id: id }); //state which tracks if its a edit or new job
+    setEdit({ edit: true, id: id, fbid: fbid }); //state which tracks if its a edit or new job
     setNewJob(allJobs[id]); //sets values of form to old values
     setOpenModal((old) => !old);
   }
@@ -159,9 +156,10 @@ const App = () => {
     return (
       <Jobcard
         key={i}
+        id={i}
         newJob={job}
         localJobDelete={() => localJobDelete(i)}
-        editJobCard={() => editJobCard(i)}
+        editJobCard={editJobCard}
       />
     );
   });
