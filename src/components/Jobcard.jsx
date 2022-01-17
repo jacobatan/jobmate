@@ -30,7 +30,7 @@ const Jobcard = ({ newJob, localJobDelete, editJobCard }) => {
     deleteDoc(docRef);
     localJobDelete();
   }
-  
+
   return (
     <div className="flex flex-col p-6 shadow-md rounded-xl bg-white cursor-pointer hover:shadow-2xl transform transition mx-2 ease-out ">
       {/* Card Header*/}
@@ -67,7 +67,12 @@ const Jobcard = ({ newJob, localJobDelete, editJobCard }) => {
         </button>
       </div>
 
-      <p className="hidden sm:block text-sm text-gray-400 ">{newJob.notes}</p>
+      <p
+        className="hidden sm:block text-sm 
+      text-gray-400 "
+      >
+        {newJob.notes}
+      </p>
 
       {/* call to actoin */}
       <div className="self-end">

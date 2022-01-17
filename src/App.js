@@ -7,7 +7,13 @@ import Login from "./components/Login";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { db } from "./firebase";
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 const App = () => {
   //state for adding new job
@@ -61,29 +67,28 @@ const App = () => {
   function renderNewJob(event) {
     event.preventDefault();
     const latestJob = newJob; //  update all jobs
-    addDoc(colRef, {
-      company: latestJob.company,
-      position: latestJob.position,
-      location: latestJob.location,
-      notes: latestJob.notes,
-      status: latestJob.status,
-      date: latestJob.date,
-    });
+
     if (edit.edit) {
       handleJobEdit(edit.id);
     } else {
       setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
       setNewJob(defaultNewJob); //clear the form and default the state
       setNewJobForm((old) => !old);
+      addDoc(colRef, {
+        company: latestJob.company,
+        position: latestJob.position,
+        location: latestJob.location,
+        notes: latestJob.notes,
+        status: latestJob.status,
+        date: latestJob.date,
+      });
     }
   }
   // --------------- FIREBASE STUFF THAT ACTUALLY FUCKING WORKS ------------------ //
 
   //recieves new job data and stores it in state, newJob
   function handleNewJob(event) {
-    console.log("handleNewJob has been called");
     // This lets us add shit to the database the id is always randomised.
-
     setNewJob((prevJobData) => {
       return {
         ...prevJobData,
@@ -115,6 +120,16 @@ const App = () => {
   }
 
   function handleJobEdit(id) {
+    const docRef = doc(db, "gamers", "432rsvJ3KvhZ5F7RNM3H");
+    console.log(newJob);
+    updateDoc(docRef, {
+      company: "awoooooooooooooga",
+      // position: latestJob.position,
+      // location: latestJob.location,
+      // notes: latestJob.notes,
+      // status: latestJob.status,
+      // date: latestJob.date,
+    });
     setAllJobs((prevJobs) =>
       prevJobs.map((job, i) => {
         if (i === id) {
@@ -132,7 +147,8 @@ const App = () => {
     setOpenModal((old) => !old);
   }
 
-  function editJobCard(id) {
+  function editJobCard(id, fbid) {
+    console.log(fbid);
     setEdit({ edit: true, id: id }); //state which tracks if its a edit or new job
     setNewJob(allJobs[id]); //sets values of form to old values
     setOpenModal((old) => !old);
