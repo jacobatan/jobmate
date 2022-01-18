@@ -6,7 +6,7 @@ import Summary from "./components/Summary";
 import Login from "./components/Login";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { db } from "./firebase";
+import { db, auth } from "./firebase";
 import {
   getDocs,
   collection,
