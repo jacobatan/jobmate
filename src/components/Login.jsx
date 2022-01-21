@@ -12,15 +12,14 @@ export default function Login(props) {
   let navigate = useNavigate();
   const provider = new GoogleAuthProvider();
   const signInWithGoogle = () => {
-    navigate(`/`);
-
     signInWithRedirect(auth, provider)
       .then((res) => {
-        console.log(res);
+        console.log("res");
         getRedirectResult(auth)
           .then((result) => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
+            console.log("res");
 
             const user = result.user;
           })
@@ -29,9 +28,9 @@ export default function Login(props) {
             const errorMessage = error.message;
             const email = error.email;
             const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
+            console.log("res");
           });
-        navigate(`/`);
+        console.log("res");
       })
       .catch((err) => {
         console.log(err);
