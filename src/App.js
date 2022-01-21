@@ -14,8 +14,31 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const App = () => {
+  // AUTH
+  const auth = getAuth();
+  const user = auth.currentUser;
+  if (user !== null) {
+    // The user object has basic properties such as display name, email, etc.
+    const displayName = user.displayName;
+    const email = user.email;
+    const photoURL = user.photoURL;
+    const emailVerified = user.emailVerified;
+
+    // The user's ID, unique to the Firebase project. Do NOT use
+    // this value to authenticate with your backend server, if
+    // you have one. Use User.getToken() instead.
+    const uid = user.uid;
+  }
+  const currentLoggedInUser = {
+    displayName: user.displayName,
+    email: user.email,
+    photoURL: user.photoURL,
+    emailVerified: user.emailVerified,
+    uid: user.uid,
+  };
   //state for adding new job
   const defaultNewJob = {
     company: "",
@@ -171,7 +194,7 @@ const App = () => {
       {/* content */}
       {loginSuccess && (
         <div>
-          <Header />
+          <Header photoURL={currentLoggedInUser.photoURL} />
           <Summary summary={summary} />
           {openModal && (
             <NewjobForm
