@@ -1,10 +1,9 @@
 import React from "react";
 
-const Summary = (props, { photoURL, displayName }) => {
-  const totalActiveOffers =
-    props.summary.offers + props.summary.awaitingResponse;
+const Summary = ({ summary, photoURL, displayName }) => {
+  const totalActiveOffers = summary.offers + summary.awaitingResponse;
   const offersWidth = totalActiveOffers
-    ? (props.summary.offers / totalActiveOffers) * 100
+    ? (summary.offers / totalActiveOffers) * 100
     : 50;
   const awaitWidth = 100 - offersWidth;
   const offersStyles = {
@@ -37,26 +36,28 @@ const Summary = (props, { photoURL, displayName }) => {
             style={offersStyles}
             className={`relative bg-green-300 hover:shadow-md rounded-lg mr-1 px-2 py-2 sm:py-4 transition-all ease-out `}
           >
-            <p>{props.summary.offers} </p>
+            <p>{summary.offers} </p>
           </div>
 
           <div
             style={awaitStyles}
             className={`relative  bg-orange-300 hover:shadow-md rounded-lg mr-1 px-2  py-2 sm:py-4 transition-all ease-out `}
           >
-            <p>{props.summary.awaitingResponse}</p>
+            <p>{summary.awaitingResponse}</p>
           </div>
         </div>
       </div>
 
       {/* profile picture and name */}
-      <div className="hidden sm:inline-block mx-auto">
+      <div className="flex flex-col justify-center items-center mx-auto">
         <img
           className=" w-28 h-28 object-cover rounded-full"
-          src="https://image.cnbcfm.com/api/v1/image/106926995-1628885360355-elon2.jpg?v=1639579996"
+          src={photoURL}
           alt="photo of chad"
         />
-        <h1 className="text-center font-bold text-xl ">Hello, Elon!</h1>
+        <h1 className="text-center font-bold text-xl ">
+          hello, {displayName}!
+        </h1>
       </div>
     </div>
   );
