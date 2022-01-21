@@ -22,8 +22,8 @@ const db = getFirestore();
 const auth = getAuth(app);
 
 // Collection
-const colRef = collection(db, "gamers");
+const gColRef = collection(db, "gamers");
 
 const analytics = getAnalytics(app);
 
-export { firebaseConfig, app, db, colRef, auth };
+export { firebaseConfig, app, db, gColRef, auth };
