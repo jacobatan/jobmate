@@ -13,7 +13,7 @@ const Header = ({ photoURL }) => {
       <div onClick={toggleProfileOptions} className="relative">
         <img
           className="w-10 h-10 object-cover rounded-full mr-20 cursor-pointer"
-          src="https://image.cnbcfm.com/api/v1/image/106926995-1628885360355-elon2.jpg?v=1639579996"
+          src={photoURL}
           alt="profile photo"
         />
         {displayProfileOptions && (
