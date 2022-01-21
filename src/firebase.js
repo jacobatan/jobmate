@@ -26,4 +26,4 @@ const colRef = collection(db, "gamers");
 
 const analytics = getAnalytics(app);
 
-export { app, db, colRef, auth };
+export { firebaseConfig, app, db, colRef, auth };
