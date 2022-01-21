@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Header = () => {
+const Header = ({ photoURL }) => {
   const [displayProfileOptions, setProfileOptions] = useState(false);
 
   function toggleProfileOptions() {
