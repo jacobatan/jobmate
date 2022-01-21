@@ -195,7 +195,11 @@ const App = () => {
       {loginSuccess && (
         <div>
           <Header photoURL={currentLoggedInUser.photoURL} />
-          <Summary summary={summary} />
+          <Summary
+            summary={summary}
+            photoURL={currentLoggedInUser.photoURL}
+            displayName={currentLoggedInUser.displayName}
+          />
           {openModal && (
             <NewjobForm
               showNewJobForm={showNewJobForm}
