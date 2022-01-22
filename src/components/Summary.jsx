@@ -12,7 +12,7 @@ const Summary = ({ summary, photoURL, displayName }) => {
   const awaitStyles = {
     width: `${awaitWidth}%`,
   };
-
+  const skeleton = "";
   return (
     //main summary div
     <div className="w-full sm:mx-auto shadow-lg rounded-md transform transition-all ease-out bg-white md:max-w-screen-sm lg:max-w-screen-md  py-2 sm:py-6 sm:flex items-center justify-between px-2">
@@ -49,16 +49,23 @@ const Summary = ({ summary, photoURL, displayName }) => {
       </div>
 
       {/* profile picture and name */}
-      <div className="flex flex-col justify-center items-center mx-auto">
-        <img
-          className=" w-28 h-28 object-cover rounded-full"
-          src={photoURL}
-          alt="photo of chad"
-        />
-        <h1 className="text-center font-bold text-xl ">
-          hello, {displayName}!
-        </h1>
-      </div>
+      {displayName ? (
+        <div className="flex flex-col justify-center items-center mx-auto">
+          <img
+            className=" w-28 h-28 object-cover rounded-full"
+            src={photoURL}
+            alt="photo of chad"
+          />
+          <h1 className="text-center font-bold text-xl ">
+            hello, {displayName}!
+          </h1>
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center mx-auto space-y-2">
+          <div className=" w-28 h-28 object-cover rounded-full bg-gray-300 animate-pulse" />
+          <div className="w-40 h-8 bg-gray-300 rounded-md animate-pulse " />
+        </div>
+      )}
     </div>
   );
 };
