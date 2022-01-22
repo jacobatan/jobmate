@@ -183,10 +183,7 @@ const App = () => {
   //maps over all jobs and renders the jsx
   let skeletonArr = new Array(5).fill("");
   const renderAllJobs = firebaseData
-    ? skeletonArr?.map((job, i) => {
-        return <JobcardSkeleton />;
-      })
-    : firebaseData
+    ? firebaseData
         ?.filter((job) => job.userID == currentLoggedInUser.uid)
         ?.map((job, i) => {
           return (
@@ -198,7 +195,11 @@ const App = () => {
               editJobCard={editJobCard}
             />
           );
-        });
+        })
+    : skeletonArr.map((job, i) => {
+        return <JobcardSkeleton />;
+      });
+
   return (
     <div className=" h-screen ">
       <div>
