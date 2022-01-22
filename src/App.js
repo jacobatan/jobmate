@@ -27,20 +27,8 @@ const App = () => {
     uid: "null",
   });
 
-  // const user = auth.currentUser;
-  // if (user === null) {
-  //   navigate(`/login`);
-  // } else {
-  //   const currentLoggedInUser = {
-  //     displayName: user.displayName,
-  //     email: user.email,
-  //     photoURL: user.photoURL,
-  //     emailVerified: user.emailVerified,
-  //     uid: user.uid,
-  //   };
-  // }
-
   const auth = getAuth();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -51,9 +39,8 @@ const App = () => {
           emailVerified: user.emailVerified,
           uid: user.uid,
         });
-        console.log("user");
       } else {
-        console.log("usernt");
+        navigate(`/login`);
       }
     });
 
@@ -93,7 +80,6 @@ const App = () => {
   const [firebaseData, setFirebaseData] = useState();
 
   const gColRef = collection(db, "gamers");
-  const userColRef = collection(db, "gamers");
 
   useEffect(() => {
     async function getGamers() {
@@ -127,6 +113,7 @@ const App = () => {
         notes: latestJob.notes,
         status: latestJob.status,
         date: latestJob.date,
+        userID: currentLoggedInUser.uid,
       });
     }
   }
@@ -159,14 +146,8 @@ const App = () => {
     setAllJobs(newJobs);
   }
 
-  //authenticates login page
-  function loginAuthentication() {
-    setLoginSuccess(true);
-  }
-
   function handleJobEdit(id, fbid) {
     const docRef = doc(db, "gamers", fbid);
-    console.log(newJob);
     updateDoc(docRef, {
       company: newJob.company,
       position: newJob.position,
@@ -175,17 +156,17 @@ const App = () => {
       status: newJob.status,
       date: newJob.date,
     });
-    setAllJobs((prevJobs) =>
-      prevJobs.map((job, i) => {
-        if (i === id) {
-          return {
-            ...newJob,
-          };
-        } else {
-          return job;
-        }
-      })
-    );
+    // setAllJobs((prevJobs) =>
+    //   prevJobs.map((job, i) => {
+    //     if (i === id) {
+    //       return {
+    //         ...newJob,
+    //       };
+    //     } else {
+    //       return job;
+    //     }
+    //   })
+    // );
     setEdit({ edit: false, id: null });
     setNewJob(defaultNewJob); //clear the form and default the state
     setNewJobForm((old) => !old);
@@ -199,17 +180,24 @@ const App = () => {
   }
 
   //maps over all jobs and renders the jsx
-  const renderAllJobs = firebaseData?.map((job, i) => {
-    return (
-      <Jobcard
-        key={i}
-        id={i}
-        newJob={job}
-        localJobDelete={() => localJobDelete(i)}
-        editJobCard={editJobCard}
-      />
-    );
-  });
+
+  const filteredJobs = firebaseData?.filter(
+    (job) => job.userID == currentLoggedInUser.uid
+  );
+
+  const renderAllJobs = firebaseData
+    ?.filter((job) => job.userID == currentLoggedInUser.uid)
+    ?.map((job, i) => {
+      return (
+        <Jobcard
+          key={i}
+          id={i}
+          newJob={job}
+          localJobDelete={() => localJobDelete(i)}
+          editJobCard={editJobCard}
+        />
+      );
+    });
 
   return (
     <div className=" h-screen ">
