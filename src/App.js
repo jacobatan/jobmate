@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import JobcardSkeleton from "./components/JobcardSkeleton";
 
 const App = () => {
   let navigate = useNavigate();
@@ -180,21 +181,24 @@ const App = () => {
   }
 
   //maps over all jobs and renders the jsx
-
+  let skeletonArr = new Array(5).fill("");
   const renderAllJobs = firebaseData
-    ?.filter((job) => job.userID == currentLoggedInUser.uid)
-    ?.map((job, i) => {
-      return (
-        <Jobcard
-          key={i}
-          id={i}
-          newJob={job}
-          localJobDelete={() => localJobDelete(i)}
-          editJobCard={editJobCard}
-        />
-      );
-    });
-
+    ? skeletonArr?.map((job, i) => {
+        return <JobcardSkeleton />;
+      })
+    : firebaseData
+        ?.filter((job) => job.userID == currentLoggedInUser.uid)
+        ?.map((job, i) => {
+          return (
+            <Jobcard
+              key={i}
+              id={i}
+              newJob={job}
+              localJobDelete={() => localJobDelete(i)}
+              editJobCard={editJobCard}
+            />
+          );
+        });
   return (
     <div className=" h-screen ">
       <div>
