@@ -181,10 +181,6 @@ const App = () => {
 
   //maps over all jobs and renders the jsx
 
-  const filteredJobs = firebaseData?.filter(
-    (job) => job.userID == currentLoggedInUser.uid
-  );
-
   const renderAllJobs = firebaseData
     ?.filter((job) => job.userID == currentLoggedInUser.uid)
     ?.map((job, i) => {
