@@ -3,10 +3,9 @@ import Header from "./components/Header";
 import Jobcard from "./components/Jobcard";
 import NewjobForm from "./components/NewjobForm";
 import Summary from "./components/Summary";
-import Login from "./components/Login";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { db } from "./firebase";
+import { db, auth } from "./firebase";
 import {
   getDocs,
   collection,
@@ -14,8 +13,43 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import JobcardSkeleton from "./components/JobcardSkeleton";
 
 const App = () => {
+  let navigate = useNavigate();
+  // AUTH
+  const [currentLoggedInUser, setCurrentLoggedInUser] = useState({
+    displayName: "",
+    email: "",
+    photoURL: "",
+    emailVerified: "",
+    uid: "null",
+  });
+
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentLoggedInUser({
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          uid: user.uid,
+        });
+      } else {
+        navigate(`/login`);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   //state for adding new job
   const defaultNewJob = {
     company: "",
@@ -46,12 +80,12 @@ const App = () => {
 
   const [firebaseData, setFirebaseData] = useState();
 
-  const colRef = collection(db, "gamers");
+  const gColRef = collection(db, "gamers");
 
   useEffect(() => {
     async function getGamers() {
       // grab that snapshot
-      const snapshot = await getDocs(colRef);
+      const snapshot = await getDocs(gColRef);
       // this maps the datas to the list var
       let gamerSnapshot = snapshot.docs.map((doc) => {
         return { ...doc.data(), id: doc.id };
@@ -73,13 +107,14 @@ const App = () => {
       setAllJobs((allPrevJobs) => [...allPrevJobs, latestJob]);
       setNewJob(defaultNewJob); //clear the form and default the state
       setNewJobForm((old) => !old);
-      addDoc(colRef, {
+      addDoc(gColRef, {
         company: latestJob.company,
         position: latestJob.position,
         location: latestJob.location,
         notes: latestJob.notes,
         status: latestJob.status,
         date: latestJob.date,
+        userID: currentLoggedInUser.uid,
       });
     }
   }
@@ -112,14 +147,8 @@ const App = () => {
     setAllJobs(newJobs);
   }
 
-  //authenticates login page
-  function loginAuthentication() {
-    setLoginSuccess(true);
-  }
-
   function handleJobEdit(id, fbid) {
     const docRef = doc(db, "gamers", fbid);
-    console.log(newJob);
     updateDoc(docRef, {
       company: newJob.company,
       position: newJob.position,
@@ -128,17 +157,17 @@ const App = () => {
       status: newJob.status,
       date: newJob.date,
     });
-    setAllJobs((prevJobs) =>
-      prevJobs.map((job, i) => {
-        if (i === id) {
-          return {
-            ...newJob,
-          };
-        } else {
-          return job;
-        }
-      })
-    );
+    // setAllJobs((prevJobs) =>
+    //   prevJobs.map((job, i) => {
+    //     if (i === id) {
+    //       return {
+    //         ...newJob,
+    //       };
+    //     } else {
+    //       return job;
+    //     }
+    //   })
+    // );
     setEdit({ edit: false, id: null });
     setNewJob(defaultNewJob); //clear the form and default the state
     setNewJobForm((old) => !old);
@@ -152,52 +181,58 @@ const App = () => {
   }
 
   //maps over all jobs and renders the jsx
-  const renderAllJobs = firebaseData?.map((job, i) => {
-    return (
-      <Jobcard
-        key={i}
-        id={i}
-        newJob={job}
-        localJobDelete={() => localJobDelete(i)}
-        editJobCard={editJobCard}
-      />
-    );
-  });
+  let skeletonArr = new Array(5).fill("");
+  const renderAllJobs = firebaseData
+    ? firebaseData
+        ?.filter((job) => job.userID == currentLoggedInUser.uid)
+        ?.map((job, i) => {
+          return (
+            <Jobcard
+              key={i}
+              id={i}
+              newJob={job}
+              localJobDelete={() => localJobDelete(i)}
+              editJobCard={editJobCard}
+            />
+          );
+        })
+    : skeletonArr.map((job, i) => {
+        return <JobcardSkeleton />;
+      });
 
   return (
     <div className=" h-screen ">
-      {!loginSuccess && <Login loginSuccess={loginAuthentication} />}
+      <div>
+        <Header photoURL={currentLoggedInUser.photoURL} />
+        <Summary
+          summary={summary}
+          photoURL={currentLoggedInUser.photoURL}
+          displayName={currentLoggedInUser.displayName}
+        />
+        {openModal && (
+          <NewjobForm
+            showNewJobForm={showNewJobForm}
+            handleNewJob={handleNewJob}
+            newJob={newJob}
+            renderNewJob={renderNewJob}
+            toggleModal={() => setOpenModal(false)}
+          />
+        )}
 
-      {/* content */}
-      {loginSuccess && (
-        <div>
-          <Header />
-          <Summary summary={summary} />
-          {openModal && (
-            <NewjobForm
-              showNewJobForm={showNewJobForm}
-              handleNewJob={handleNewJob}
-              newJob={newJob}
-              renderNewJob={renderNewJob}
-              toggleModal={() => setOpenModal(false)}
+        {/* main card */}
+        <section className="py-12 grid grid-cols-1  md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
+          <button
+            className="border-2 hover:blur-sm hover:shadow-lg focus:blur-sm focus:shadow-lg  border-dashed cursor-pointer text-xl opacity-60"
+            onClick={() => setOpenModal(true)}
+          >
+            <FontAwesomeIcon
+              icon={faPlusCircle}
+              className="my-2 fa-2x block mx-auto"
             />
-          )}
-
-          {/* main card */}
-          <section className="py-12 grid grid-cols-1  md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
-            <button
-              className="border-2 hover:blur-sm hover:shadow-lg focus:blur-sm focus:shadow-lg  border-dashed cursor-pointer text-xl opacity-60"
-              onClick={() => setOpenModal(true)}
-            >
-              <FontAwesomeIcon
-                icon={faPlusCircle}
-                className="my-2 fa-2x block mx-auto"
-              />
-            </button>
-            {renderAllJobs}
-          </section>
-        </div>
-      )}
+          </button>
+          {renderAllJobs}
+        </section>
+      </div>
     </div>
   );
 };
