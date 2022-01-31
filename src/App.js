@@ -15,7 +15,7 @@ import {
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import JobcardSkeleton from "./components/JobcardSkeleton";
+import Jobcardskeleton from "./components/Jobcardskeleton";
 
 const App = () => {
   let navigate = useNavigate();
@@ -197,7 +197,7 @@ const App = () => {
           );
         })
     : skeletonArr.map((job, i) => {
-        return <JobcardSkeleton />;
+        return <Jobcardskeleton />;
       });
 
   return (
