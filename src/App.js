@@ -204,6 +204,7 @@ const App = () => {
     <div className=" h-screen ">
       <div>
         <Header photoURL={currentLoggedInUser.photoURL} />
+        this app is still under construction.
         <Summary
           summary={summary}
           photoURL={currentLoggedInUser.photoURL}
@@ -218,7 +219,6 @@ const App = () => {
             toggleModal={() => setOpenModal(false)}
           />
         )}
-
         {/* main card */}
         <section className="py-12 grid grid-cols-1  md:grid-cols-2 lg:max-w-7xl  xl:grid-cols-3  mx-auto gap-x-6 gap-y-6 ">
           <button
