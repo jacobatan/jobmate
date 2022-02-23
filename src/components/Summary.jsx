@@ -12,7 +12,6 @@ const Summary = ({ summary, photoURL, displayName }) => {
   const awaitStyles = {
     width: `${awaitWidth}%`,
   };
-  const skeleton = "";
   return (
     //main summary div
     <div className="w-full sm:mx-auto shadow-lg rounded-md transform transition-all ease-out bg-white md:max-w-screen-sm lg:max-w-screen-md  py-2 sm:py-6 sm:flex items-center justify-between px-2">
@@ -54,7 +53,7 @@ const Summary = ({ summary, photoURL, displayName }) => {
           <img
             className=" w-28 h-28 object-cover rounded-full"
             src={photoURL}
-            alt="photo of chad"
+            alt=""
           />
           <h1 className="text-center font-bold text-xl ">
             hello, {displayName}!

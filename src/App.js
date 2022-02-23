@@ -63,6 +63,7 @@ const App = () => {
   const [showNewJobForm, setNewJobForm] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(true);
+  const [render, setRender] = useState(true);
   const [edit, setEdit] = useState({
     edit: false,
     id: null,
@@ -98,6 +99,7 @@ const App = () => {
   // uses the updated new job state to create a new Jobcard Component
 
   function renderNewJob(event) {
+    setRender(!render);
     event.preventDefault();
     const latestJob = newJob; //  update all jobs
 
@@ -132,14 +134,21 @@ const App = () => {
 
   //everytime new job is added, update local storage
   useEffect(() => {
-    localStorage.setItem("allJobs", JSON.stringify(allJobs));
-    const offers = allJobs.filter((job) => job.status === "offer").length;
-    const awaitingResponse = allJobs.filter(
-      (job) => job.status === "awaitingResponse"
+    const offers = firebaseData?.filter(
+      (job) => job.status === "offer" && job.userID == currentLoggedInUser.uid
     ).length;
-
+    const awaitingResponse = firebaseData?.filter(
+      (job) =>
+        job.status === "awaitingResponse" &&
+        job.userID == currentLoggedInUser.uid
+    ).length;
+    // localStorage.setItem("allJobs", JSON.stringify(allJobs));
+    // const offers = allJobs.filter((job) => job.status === "offer").length;
+    // const awaitingResponse = allJobs.filter(
+    //   (job) => job.status === "awaitingResponse"
+    // ).length;
     setSummary({ offers: offers, awaitingResponse: awaitingResponse });
-  }, [allJobs]);
+  }, [render, firebaseData]);
 
   function localJobDelete(id) {
     const updatedJobs = [...allJobs];
@@ -157,17 +166,7 @@ const App = () => {
       status: newJob.status,
       date: newJob.date,
     });
-    // setAllJobs((prevJobs) =>
-    //   prevJobs.map((job, i) => {
-    //     if (i === id) {
-    //       return {
-    //         ...newJob,
-    //       };
-    //     } else {
-    //       return job;
-    //     }
-    //   })
-    // );
+
     setEdit({ edit: false, id: null });
     setNewJob(defaultNewJob); //clear the form and default the state
     setNewJobForm((old) => !old);
@@ -196,8 +195,8 @@ const App = () => {
             />
           );
         })
-    : skeletonArr.map((job, i) => {
-        return <Jobcardskeleton />;
+    : skeletonArr.map((_, i) => {
+        return <Jobcardskeleton key={i} />;
       });
 
   return (

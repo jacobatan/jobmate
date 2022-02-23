@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
 const Header = ({ photoURL }) => {
   const [displayProfileOptions, setProfileOptions] = useState(false);
 
@@ -20,9 +21,10 @@ const Header = ({ photoURL }) => {
           <div className="w-10 h-10 rounded-full mr-20 bg-gray-300 animate-pulse" />
         )}
         {displayProfileOptions && (
-          <div className="absolute right-2 flex flex-col shadow-sm bg-white z-10 min-w-max">
-            <span className="p-4 w-max"> Edit Profile</span>
-            <span className="p-4"> Logout</span>
+          <div className="absolute flex flex-col shadow-sm bg-white z-10 min-w-max">
+            <span className="p-4 w-max" onClick={() => signOut(auth)}>
+              Logout
+            </span>
           </div>
         )}
       </div>
