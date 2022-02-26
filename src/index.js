@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
-
+import "flowbite";
 ReactDOM.render(
   <BrowserRouter>
     <Routes>
