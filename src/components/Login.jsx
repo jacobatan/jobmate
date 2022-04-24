@@ -33,7 +33,7 @@ function Login() {
     <div className=" notica-font flex text-[#1f2d3d] bg-white">
       <div className="lg:w-2/3 xs:w-full">
         <div className=" space-y-5">
-          <img src={logo} alt="" className="w-1/5" />
+          <img src={logo} alt="" className="w-20" />
           <div className=" space-y-5 mx-auto lg:w-1/2 xs:w-full px-4">
             <div className="text-5xl font-bold pt-32">
               Create your account! Completely free, forever.
@@ -52,10 +52,11 @@ function Login() {
                 value=""
                 className="hover:cursor-not-allowed mb-10"
                 data-tooltip-target="tooltip-default"
+                disabled
               />
 
               <label for="lname" className="font-bold">
-                Last name:
+                Password:
               </label>
               <input
                 type="text"
@@ -64,6 +65,7 @@ function Login() {
                 value=""
                 className="hover:cursor-not-allowed mb-20"
                 data-tooltip-target="tooltip-default"
+                disabled
               />
               <div
                 id="tooltip-default"
@@ -77,6 +79,7 @@ function Login() {
                 data-tooltip-target="tooltip-default"
                 type="button"
                 className="hover:cursor-not-allowed text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium  text-lg px-5 py-5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                disabled
               >
                 Create an account
               </button>
